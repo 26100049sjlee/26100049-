@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>스마트 학점 계산기</title>
     <style>
-        /* CSS: 웹페이지의 디자인을 담당합니다 */
         body {
             font-family: 'Pretendard', -apple-system, sans-serif;
             background-color: #f4f7f6;
@@ -95,7 +94,6 @@
 <div class="container">
     <h1>🎓 스마트 학점 계산기</h1>
 
-    <!-- 사용자 입력 UI -->
     <div class="input-group">
         <input type="text" id="subName" placeholder="과목명 입력 (예: 파이썬)">
         <input type="number" id="subCredit" placeholder="학점" min="1" max="6">
@@ -113,7 +111,6 @@
         <button class="add-btn" onclick="addSubject()">추가</button>
     </div>
 
-    <!-- 성적 내역 테이블 UI -->
     <table>
         <thead>
             <tr>
@@ -124,11 +121,9 @@
             </tr>
         </thead>
         <tbody id="subjectList">
-            <!-- 추가된 과목이 여기에 나타납니다 -->
         </tbody>
     </table>
 
-    <!-- 결과 화면 UI -->
     <div class="result-box">
         총 이수 학점: <span id="totalCredits">0</span>학점
         <span class="gpa-highlight">나의 평균 학점(GPA): <span id="finalGPA">0.00</span> / 4.5</span>
@@ -136,10 +131,8 @@
 </div>
 
 <script>
-    // JavaScript: 웹페이지의 동작과 계산 기능을 담당합니다 (파이썬 코드와 동일한 역할)
     let subjects = [];
 
-    // 1. 성적을 평점으로 변환하는 함수
     function getGradePoint(grade) {
         const gradeMap = {
             'A+': 4.5, 'A0': 4.0, 'B+': 3.5, 'B0': 3.0,
@@ -148,7 +141,6 @@
         return gradeMap[grade] || 0;
     }
 
-    // 2. 과목 추가 기능
     function addSubject() {
         const nameInput = document.getElementById('subName').value;
         const creditInput = parseInt(document.getElementById('subCredit').value);
@@ -159,37 +151,31 @@
             return;
         }
 
-        // 배열(파이썬의 리스트)에 데이터 추가
         subjects.push({ name: nameInput, credit: creditInput, grade: gradeInput });
         
-        // 입력창 초기화
         document.getElementById('subName').value = '';
         document.getElementById('subCredit').value = '';
 
-        updateUI(); // 화면 갱신
+        updateUI();
     }
 
-    // 3. 과목 삭제 기능 (새롭게 추가된 개선 기능)
     function deleteSubject(index) {
-        subjects.splice(index, 1); // 배열에서 해당 항목 삭제
-        updateUI(); // 화면 갱신
+        subjects.splice(index, 1);
+        updateUI();
     }
 
-    // 4. 화면 갱신 및 학점 계산 (파이썬의 반복문과 조건문 역할)
     function updateUI() {
         const tbody = document.getElementById('subjectList');
-        tbody.innerHTML = ''; // 테이블 초기화
+        tbody.innerHTML = '';
 
         let totalCredits = 0;
         let totalPoints = 0;
 
-        // 리스트를 순회하며 화면에 출력하고 학점을 합산
         for (let i = 0; i < subjects.length; i++) {
             const sub = subjects[i];
             totalCredits += sub.credit;
             totalPoints += (sub.credit * getGradePoint(sub.grade));
 
-            // 테이블에 행 추가
             const row = `<tr>
                 <td>${sub.name}</td>
                 <td>${sub.credit}</td>
@@ -199,7 +185,6 @@
             tbody.innerHTML += row;
         }
 
-        // 최종 GPA 계산 및 화면 표시
         const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
         document.getElementById('totalCredits').innerText = totalCredits;
         document.getElementById('finalGPA').innerText = gpa;
